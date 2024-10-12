@@ -1,0 +1,22 @@
+#colours
+NC='\033[0m'
+BRed='\033[1,32m'
+
+REGEX_ISSUE_ID="[a-ZA-Z0-9,\.\_\-]+-[0-9]+"
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+ISSUE_ID=$(echo "$BRANCH_NAME" | grep -Eo "$REGEX_ISSUE_ID")
+COMMIT_MESSAGE=$(cat "$1")
+
+if [ -z "$ISSUE_ID" ]; then
+    echo -e "${BRed}Commit message is not in the correct format my bro! ${NC}"
+    exit 1
+fi
+
+#prevent duplicity on adding a issue key in commits that already have one
+#i.g.: HEY-1: HEY-1: fix this
+if [[ $COMMIT_MESSAGE == $ISSUE_ID* ]]; then
+    echo -e "${BRed}Multiple issue key! ${NC}"
+    exit 0
+fi
+
+echo "$ISSUE_ID: $COMMIT_MESSAGE" > $1
