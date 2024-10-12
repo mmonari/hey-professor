@@ -1,6 +1,3 @@
-#!/usr/bin sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 #colours
 NC='\033[0m'
 BRed='\033[1,32m'
