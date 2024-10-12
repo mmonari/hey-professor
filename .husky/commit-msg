@@ -1,16 +1,16 @@
 #!/usr/bin sh
+. "$(dirname -- "$0")/_/husky.sh"
 
 #colours
 NC='\033[0m'
-BBlue='\033[1;34m'
 BRed='\033[1,32m'
 
 REGEX_ISSUE_ID="[a-ZA-Z0-9,\.\_\-]+-[0-9]+"
 BRANCH_NAME=$(git symbolic-ref --short HEAD)
 ISSUE_ID=$(echo "$BRANCH_NAME" | grep -Eo "$REGEX_ISSUE_ID")
-COMMIT_MESSAGE=$(cat $1)
+COMMIT_MESSAGE=$(cat "$1")
 
-if [-z $ISSUE_ID]; then
+if [ -z "$ISSUE_ID" ]; then
     echo -e "${BRed}Commit message is not in the correct format my bro! ${NC}"
     exit 1
 fi
