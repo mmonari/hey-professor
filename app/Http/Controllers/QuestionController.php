@@ -12,7 +12,7 @@ class QuestionController extends Controller
         //dd($request->question);
 
         $attributes = $request->validate([
-            'question' => ['required'],
+            'question' => ['required', 'min:10'],
         ]);
 
         Question::query()->create($attributes);
