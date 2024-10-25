@@ -10,7 +10,6 @@ class QuestionController extends Controller
 {
     public function store(Request $request): RedirectResponse
     {
-        //dd($request->question);
 
         $attributes = $request->validate([
             'question' => [
