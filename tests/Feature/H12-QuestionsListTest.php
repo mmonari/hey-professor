@@ -6,7 +6,7 @@
 
 use App\Models\{Question, User};
 
-use function Pest\Laravel\{actingAs, get};
+use function Pest\Laravel\{actingAs, assertDatabaseHas, get, post};
 
 it('should list all questions', function () {
     // Arrange:: create a user and log in as that user
@@ -29,7 +29,26 @@ it('should list all questions', function () {
 });
 
 it('should be able to give it a Like', function () {
-})->todo();
+    // Arrange:: create a user and log in as that user
+    $user = User::factory()->create();
+    actingAs($user);
+    // create a question
+    $question = Question::factory()->create();
+
+    // Act:: Post a like to the question
+    $response = post(route('question.like', $question->id))->assertRedirect();
+
+    $response->assertRedirect(route('dashboard'));
+
+    // Assert: The question is listed and user is redirected to dashboard
+    assertDatabaseHas('votes', [
+        'user_id'     => $user->id,
+        'question_id' => $question->id,
+        'likes'       => 1,
+        'dislikes'    => 0,
+    ]);
+
+});
 
 it('should be able to give it a Dislike', function () {
 })->todo();
