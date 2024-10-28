@@ -50,6 +50,24 @@ it('should be able to give it a Like', function () {
 
 });
 
+it('should NOT be able to give it a second  or more Likes to the same question', function () {
+    // Arrange:: create a user and log in as that user
+    $user = User::factory()->create();
+    actingAs($user);
+    // create a question
+    $question = Question::factory()->create();
+
+    // Act:: Post a like to the question
+    post(route('question.like', $question->id));
+    post(route('question.like', $question->id));
+    post(route('question.like', $question->id));
+
+    //assert
+    expect($user->votes()->where('question_id', $question->id)
+        ->count())->toBe(1);
+
+});
+
 it('should be able to give it a Dislike', function () {
 })->todo();
 

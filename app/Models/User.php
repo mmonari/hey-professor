@@ -48,9 +48,9 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function likes(Question $question): Vote
+    public function likes(Question $question): void
     {
-        return Vote::query()->create([
+        Vote::query()->updateOrCreate([
             'question_id' => $question->id,
             'user_id'     => $this->id,
             'likes'       => 1,
@@ -58,9 +58,9 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
-    public function dislikes(Question $question): Vote
+    public function dislikes(Question $question): void
     {
-        return Vote::query()->create([
+        Vote::query()->updateOrCreate([
             'question_id' => $question->id,
             'user_id'     => $this->id,
             'likes'       => 0,
