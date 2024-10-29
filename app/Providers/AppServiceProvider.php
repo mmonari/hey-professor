@@ -22,5 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // let all models be unguarded by default
         Model::unguard();
+        // prevent laxy loading in local dev
+        Model::preventLazyLoading(!app()->isProduction());
     }
 }

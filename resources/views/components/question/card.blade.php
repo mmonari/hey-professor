@@ -9,7 +9,7 @@
                         <x-heroicon.thumb-up />
                     </button>
                 </x-form.main>
-                <span>{{ $question->total_likes }}</span>
+                <span>{{ ($question->votes_sum_likes ?? 0) }}</span>
             </div>
             <div class="flex gap-1">
                 <x-form.main action="{{ route('question.dislike', $question) }}" >
@@ -17,7 +17,7 @@
                         <x-heroicon.thumb-down />
                     </button>
                 </x-form.main>    
-                <span>{{ $question->total_dislikes }}</span>
+                <span>{{ ($question->votes_sum_dislikes ?? 0) }}</span>
             </div>
         </div>
     </div>

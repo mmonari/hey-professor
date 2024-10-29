@@ -20,20 +20,4 @@ class Question extends Model
         return $this->hasMany(Vote::class);
     }
 
-    public function getTotalLikesAttribute(): int
-    {
-        return $this->votes()
-                    ->where('likes', 1)
-                    ->where('dislikes', 0)
-                    ->count();
-    }
-
-    public function getTotalDislikesAttribute(): int
-    {
-        return $this->votes()
-                    ->where('likes', 0)
-                    ->where('dislikes', 1)
-                    ->count();
-    }
-
 }
