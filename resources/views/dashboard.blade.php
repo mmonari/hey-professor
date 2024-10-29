@@ -33,7 +33,7 @@
 
         <div class="mt-2 space-y-3">
             @foreach($questions as $item)
-                <x-question-card :question="$item" />
+                <x-question.card :question="$item" />
             @endforeach
         </div>
        

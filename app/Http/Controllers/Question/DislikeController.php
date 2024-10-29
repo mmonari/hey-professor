@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Question;
 use Illuminate\Http\RedirectResponse;
 
-class LikeController extends Controller
+class DislikeController extends Controller
 {
     /**
      * Handle the incoming request.
      */
     public function __invoke(Question $question): RedirectResponse
     {
-        user()->likes($question);
+        user()->dislikes($question);
 
         return to_route('dashboard');
     }
