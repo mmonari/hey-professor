@@ -11,6 +11,15 @@ class Question extends Model
     /** @use HasFactory<\Database\Factories\QuestionFactory> */
     use HasFactory;
 
+    protected function casts(): array
+    {
+        return [
+            'draft'      => 'boolean',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
+    }
+
     /**
      *
      * @return HasMany<Vote>
