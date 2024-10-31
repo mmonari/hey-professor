@@ -10,26 +10,9 @@
 
     <x-container>
         
-        <x-form.main :action="route('question.store')" >
-            
-            <x-form.textarea 
-                name="question" 
-                :label="__('Ask a question:')" 
-                placeholder="What's your question?"
-                required="true"
-            />
-            
-            <x-form.btn-secondary type="reset" label="Reset" />
-            
-            <x-form.btn-primary type="submit" label="Ask the question" />
-
-        </x-form.main>
-
-        <hr class="my-4 border-gray-500 border-dashed">
-        
-        {{-- List of questions --}}
+        {{-- List of questions to be voted --}}
        
-        <div class="font-medium uppercase dark:text-gray-300">{{ __('Questions list') }}</div>
+        <div class="font-medium uppercase dark:text-gray-300">{{ __('Vote on questions') }}</div>
 
         <div class="mt-2 space-y-3">
             @foreach($questions as $item)

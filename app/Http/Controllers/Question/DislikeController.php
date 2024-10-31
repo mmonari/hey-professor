@@ -15,6 +15,6 @@ class DislikeController extends Controller
     {
         user()->dislikes($question);
 
-        return to_route('dashboard');
+        return back();
     }
 }

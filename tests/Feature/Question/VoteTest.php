@@ -19,7 +19,7 @@ it('should be able to give it a Like', function () {
     // Act:: Post a like to the question
     $response = post(route('question.like', $question->id))->assertRedirect();
 
-    $response->assertRedirect(route('dashboard'));
+    $response->assertRedirect();
 
     // Assert: The question is listed and user is redirected to dashboard
     assertDatabaseHas('votes', [
@@ -61,7 +61,7 @@ it('should be able to give it a Dislike', function () {
     // Act:: Post a like to the question
     $response = post(route('question.dislike', $question->id))->assertRedirect();
 
-    $response->assertRedirect(route('dashboard'));
+    $response->assertRedirect();
 
     // Assert: The question is listed and user is redirected to dashboard
     assertDatabaseHas('votes', [
