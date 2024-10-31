@@ -6,7 +6,7 @@
 
 use App\Models\{Question, User};
 
-use function Pest\Laravel\{actingAs, assertDatabaseHas, get, post};
+use function Pest\Laravel\{actingAs, assertDatabaseHas, post};
 
 it('should be able to give it a Like', function () {
     // Arrange:: create a user and log in as that user

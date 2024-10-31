@@ -19,7 +19,8 @@ it('should be able to create a question that is bigger than 255 characters', fun
 
     // Act:: User submits a question to create it.
     $request = post(route('question.store'), [
-        'question' => str_repeat('*', 256) . '?' ,
+        'question'   => str_repeat('*', 256) . '?' ,
+        'created_by' => $user->id,
     ]);
 
     // Assert: The question is created and user is redirected to dashboard
