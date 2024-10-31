@@ -3,10 +3,15 @@
 use App\Http\Controllers\Question;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/question/store', Question\StoreController::class)->name('question.store');
+Route::middleware('auth')->group(function () {
 
-Route::post('/question/like/{question}', Question\LikeController::class)->name('question.like');
+    Route::prefix('/question')->name('question.')->group(function () {
 
-Route::post('/question/dislike/{question}', Question\DislikeController::class)->name('question.dislike');
+        Route::post('/store', Question\StoreController::class)->name('store');
+        Route::post('/like/{question}', Question\LikeController::class)->name('like');
+        Route::post('/dislike/{question}', Question\DislikeController::class)->name('dislike');
+        Route::put('/publish/{question}', Question\PublishController::class)->name('publish');
 
-Route::put('/question/publish/{question}', Question\PublishController::class)->name('question.publish');
+    });
+
+});

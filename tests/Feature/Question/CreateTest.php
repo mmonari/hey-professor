@@ -11,6 +11,14 @@ use function Pest\Laravel\{actingAs, assertDatabaseCount, assertDatabaseHas, pos
 // Here we list the requirements from the github issue
 // issue #9
 
+it('should let only authenticated users create a question', function () {
+
+    post(route('question.store'), [
+        'question' => str_repeat('*', 256) . '?' ,
+    ])->assertRedirect(route('login'));
+
+});
+
 it('should be able to create a question that is bigger than 255 characters', function () {
     // Arrange:: create a user and log in as that user
     /** @var User $user */
