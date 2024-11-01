@@ -47,6 +47,11 @@
                             {{ $item->question }}
                         </x-table.td>
                         <x-table.td class="text-right">
+                            
+                            <a href="{{ route('question.edit', $item) }}" 
+                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ __('Edit') }}
+                            </a>
+                                
                             <x-form.action 
                                 action="{{ route('question.destroy', $item) }}" 
                                 verb="DELETE"  

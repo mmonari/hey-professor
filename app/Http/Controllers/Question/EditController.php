@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Question;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 
 class EditController extends Controller
 {
@@ -16,6 +17,8 @@ class EditController extends Controller
 
     public function update(Question $question): RedirectResponse
     {
+        Gate::authorize('update', $question);
+
         $question->update(request()->validate([
             'question' => 'required',
         ]));

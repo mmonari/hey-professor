@@ -10,7 +10,7 @@
 
     <x-container>
         
-        <x-form.main :action="route('question.store')" >
+        <x-form.main :action="route('question.update', $question)" put>
             
             <x-form.textarea 
                 name="question" 
@@ -20,9 +20,9 @@
                 :value="$question->question"
             />
             
-            <x-form.btn-secondary type="reset" label="Reset" />
+            <x-form.btn-secondary type="link" href="{{ route('question.index') }}" label="Back to My Questions" />
             
-            <x-form.btn-primary type="submit" label="Ask the question" />
+            <x-form.btn-primary type="submit" label="Save the question" />
 
         </x-form.main>
 
