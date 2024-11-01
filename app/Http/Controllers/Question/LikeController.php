@@ -15,6 +15,6 @@ class LikeController extends Controller
     {
         user()->likes($question);
 
-        return to_route('dashboard');
+        return back();
     }
 }

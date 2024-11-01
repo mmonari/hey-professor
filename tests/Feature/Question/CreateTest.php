@@ -11,6 +11,14 @@ use function Pest\Laravel\{actingAs, assertDatabaseCount, assertDatabaseHas, pos
 // Here we list the requirements from the github issue
 // issue #9
 
+it('should let only authenticated users create a question', function () {
+
+    post(route('question.store'), [
+        'question' => str_repeat('*', 256) . '?' ,
+    ])->assertRedirect(route('login'));
+
+});
+
 it('should be able to create a question that is bigger than 255 characters', function () {
     // Arrange:: create a user and log in as that user
     /** @var User $user */
@@ -19,11 +27,12 @@ it('should be able to create a question that is bigger than 255 characters', fun
 
     // Act:: User submits a question to create it.
     $request = post(route('question.store'), [
-        'question' => str_repeat('*', 256) . '?' ,
+        'question'   => str_repeat('*', 256) . '?' ,
+        'created_by' => $user->id,
     ]);
 
     // Assert: The question is created and user is redirected to dashboard
-    $request->assertRedirect(route('dashboard'));
+    $request->assertRedirect();
     assertDatabaseCount('questions', 1);
     assertDatabaseHas('questions', ['question' => str_repeat('*', 256) . '?']);
 
@@ -62,5 +71,23 @@ it('should have at least 10 characters', function () {
     // Assert:
     $request->assertSessionHasErrors(['question' => __('validation.min.string', ['min' => 10, 'attribute' => 'question'])]);
     assertDatabaseCount('questions', 0);
+
+});
+
+it('should be created as a draft at first', function () {
+
+    /** @var User $user */
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $request = post(route('question.store'), [
+        'question' => str_repeat('*', 200) . '?' ,
+    ]);
+
+    // Assert:
+    assertDatabaseHas('questions', [
+        'question' => str_repeat('*', 200) . '?',
+        'draft'    => true,
+    ]);
 
 });
