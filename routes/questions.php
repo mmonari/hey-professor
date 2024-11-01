@@ -12,7 +12,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/like/{question}', Question\LikeController::class)->name('like');
 
         Route::get('/{question}/edit', [Question\EditController::class, 'edit'])->name('edit');
-        Route::put('/{question}/update', [Question\EditController::class, 'update'])->name('update');
+        Route::put('/{question}', [Question\EditController::class, 'update'])->name('update');
 
         Route::delete('/destroy/{question}', Question\DestroyController::class)->name('destroy');
         Route::post('/dislike/{question}', Question\DislikeController::class)->name('dislike');
