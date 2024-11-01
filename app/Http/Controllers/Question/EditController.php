@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Question;
 
 use App\Http\Controllers\Controller;
 use App\Models\Question;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
@@ -21,9 +22,19 @@ class EditController extends Controller
     {
         Gate::authorize('update', $question);
 
-        $question->update(request()->validate([
-            'question' => 'required',
-        ]));
+        request()->validate([
+            'question' => [
+                'required',
+                'min:10',
+                function (string $attribute, mixed $value, Closure $fail) {
+                    if ($value[strlen($value) - 1] !== '?') {
+                        $fail('The question must end with a question mark.');
+                    }
+                },
+            ],
+        ]);
+
+        $question->update(['question' => request('question'), ]);
 
         return back();
     }
