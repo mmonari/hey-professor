@@ -8,13 +8,13 @@ use App\Models\{Question, User};
 
 use function Pest\Laravel\{actingAs, get};
 
-it('should list all questions', function () {
+it('should list all published questions', function () {
     // Arrange:: create a user and log in as that user
     /** @var User $user */
     $user = User::factory()->create();
     actingAs($user);
-    // create 5 questions
-    $questions = Question::factory(5)->create();
+    // create 5 published questions
+    $questions = Question::factory(5)->create(['draft' => false]);
 
     // Act:: User visits the dashboard
     $response = get(route('dashboard'));

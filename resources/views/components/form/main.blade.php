@@ -3,18 +3,25 @@
     'put' => null,
     'patch' => null,
     'delete' => null,
+    'verb' => null,
 ])
 <form method="POST" action="{{ $action }}">
 
     @csrf
 
-    @if ($put)
-        @method('PUT')
-    @elseif ($patch)
-        @method('PATCH')
-    @elseif ($delete)
-        @method('DELETE')
+    @if($verb)
+        @method($verb)
+    @else
+        @if ($put)
+            @method('PUT')
+        @elseif ($patch)
+            @method('PATCH')
+        @elseif ($delete)
+            @method('DELETE')
+        @endif
     @endif
+
+    
 
     {{ $slot }}
     

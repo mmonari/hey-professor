@@ -27,15 +27,83 @@
 
         <hr class="my-4 border-gray-500 border-dashed">
         
-        {{-- List of questions --}}
-       
-        <div class="font-medium uppercase dark:text-gray-300">{{ __('My questions list') }}</div>
+        <x-typo.h3 class="mb-2">{{ __('Drafts') }}</x-typo.h3>
 
-        <div class="mt-2 space-y-3">
-            @foreach($questions as $item)
-                <x-question.card :question="$item" />
-            @endforeach
-        </div>
+        <x-table.main>
+            <x-table.thead>
+                <tr>
+                    <x-table.th>
+                        Question
+                    </x-table.th>
+                    <x-table.th>
+                        &nbsp;
+                    </x-table.th>
+                </tr>
+            </x-table.thead>
+            <tbody>
+                @foreach($questions->where('draft', true) as $item)
+                    <x-table.tr>
+                        <x-table.td>
+                            {{ $item->question }}
+                        </x-table.td>
+                        <x-table.td class="text-right">
+                            <x-form.action 
+                                action="{{ route('question.destroy', $item) }}" 
+                                verb="DELETE"  
+                            >
+                                {{ __('Delete') }}
+                            </x-form.action>
+                            <x-form.action 
+                                action="{{ route('question.publish', $item) }}" 
+                                verb="PUT"  
+                            >
+                                {{ __('Publish') }}
+                            </x-form.action>
+                        </x-table.td>
+                    </x-table.tr>
+                @endforeach
+            </tbody>
+        </x-table.main>
+
+        <hr class="my-4 border-gray-500 border-dashed">
+        
+        <x-typo.h3 class="mb-2">{{ __('Published') }}</x-typo.h3>
+
+        <x-table.main>
+            <x-table.thead>
+                <tr>
+                    <x-table.th>
+                        Question
+                    </x-table.th>
+                    <x-table.th>
+                        &nbsp;
+                    </x-table.th>
+                </tr>
+            </x-table.thead>
+            <tbody>
+                @foreach($questions->where('draft', false) as $item)
+                    <x-table.tr>
+                        <x-table.td>
+                            {{ $item->question }}
+                        </x-table.td>
+                        <x-table.td class="text-right">
+                            <x-form.action 
+                                action="{{ route('question.destroy', $item) }}" 
+                                verb="DELETE"  
+                            >
+                                {{ __('Delete') }}
+                            </x-form.action>
+                            <x-form.action 
+                                action="{{ route('question.unpublish', $item) }}" 
+                                verb="PUT"  
+                            >
+                                {{ __('Unpublish') }}
+                            </x-form.action>
+                        </x-table.td>
+                    </x-table.tr>
+                @endforeach
+            </tbody>
+        </x-table.main>
        
     </x-container>
     
