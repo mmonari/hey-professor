@@ -34,8 +34,10 @@ class EditController extends Controller
             ],
         ]);
 
-        $question->update(['question' => request('question'), ]);
+        if ($question->question !== request('question')) {
+            $question->update(['question' => request('question'), ]);
+        }
 
-        return back();
+        return to_route('question.index');
     }
 }

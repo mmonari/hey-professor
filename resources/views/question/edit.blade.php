@@ -3,7 +3,7 @@
     <x-slot:header>
         
         <x-typo.subtitle>
-            {{ __('My Questions :: Edit') }}
+            {{ __('Edit Question :: ') . $question->id }}
         </x-typo.subtitle>
         
     </x-slot:header>
@@ -20,7 +20,7 @@
                 :value="$question->question"
             />
             
-            <x-form.btn-secondary type="link" href="{{ route('question.index') }}" label="Back to My Questions" />
+            <x-form.btn-secondary type="reset" label="Reset" />
             
             <x-form.btn-primary type="submit" label="Save the question" />
 
