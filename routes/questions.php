@@ -10,6 +10,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/', Question\IndexController::class)->name('index');
         Route::post('/store', Question\StoreController::class)->name('store');
         Route::post('/like/{question}', Question\LikeController::class)->name('like');
+
+        Route::get('/{question}/edit', [Question\EditController::class, 'edit'])->name('edit');
+        Route::put('/{question}', [Question\EditController::class, 'update'])->name('update');
+
         Route::delete('/destroy/{question}', Question\DestroyController::class)->name('destroy');
         Route::post('/dislike/{question}', Question\DislikeController::class)->name('dislike');
         Route::put('/publish/{question}', Question\PublishController::class)->name('publish');
