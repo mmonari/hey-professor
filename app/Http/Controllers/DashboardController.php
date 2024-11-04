@@ -14,7 +14,11 @@ class DashboardController extends Controller
                 ->where('draft', false)
                 ->withSum('votes', 'likes')
                 ->withSum('votes', 'dislikes')
-                ->get(),
+                ->orderByRaw('
+                    case when votes_sum_likes is null then 0 else votes_sum_likes end desc,
+                    case when votes_sum_dislikes is null then 0 else votes_sum_dislikes end
+                ')
+                ->paginate(5),
         ]);
     }
 }

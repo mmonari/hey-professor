@@ -28,3 +28,45 @@ it('should list all published questions', function () {
     }
 
 });
+
+it('should paginate published questions', function () {
+
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $questions = Question::factory(20)->create(['draft' => false]);
+
+    $response = get(route('dashboard'))
+        ->assertViewHas('questions', function ($value) {
+            return $value instanceof \Illuminate\Pagination\LengthAwarePaginator;
+        });
+
+});
+
+it('should sort descending by the highest voted questions', function () {
+    $user        = User::factory()->create();
+    $anotherUser = User::factory()->create();
+
+    $questions = Question::factory(5)->create(['draft' => false]);
+
+    $mostLikedQuestion   = Question::inRandomOrder()->first();
+    $mostUnlikedQuestion = Question::inRandomOrder()->where('id', '<>', $mostLikedQuestion->id)->first();
+
+    $user->likes($mostLikedQuestion);
+
+    $anotherUser->dislikes($mostUnlikedQuestion);
+
+    actingAs($user);
+
+    get(route('dashboard'))
+        ->assertViewHas('questions', function ($questions) use ($mostLikedQuestion, $mostUnlikedQuestion) {
+
+            expect($questions)
+                ->first()->id->toBe($mostLikedQuestion->id)
+                ->and($questions)
+                ->last()->id->toBe($mostUnlikedQuestion->id);
+
+            return true;
+        });
+
+});
