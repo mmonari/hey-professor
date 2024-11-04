@@ -14,7 +14,7 @@ class DashboardController extends Controller
                 ->where('draft', false)
                 ->withSum('votes', 'likes')
                 ->withSum('votes', 'dislikes')
-                ->get(),
+                ->paginate(5),
         ]);
     }
 }

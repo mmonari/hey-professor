@@ -28,3 +28,21 @@ it('should list all published questions', function () {
     }
 
 });
+
+it('should paginate published questions', function () {
+
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $questions = Question::factory(20)->create(['draft' => false]);
+
+    $response = get(route('dashboard'))
+        ->assertViewHas('questions', function ($value) {
+            return $value instanceof \Illuminate\Pagination\LengthAwarePaginator;
+        });
+
+});
+
+it('should sort by the highest voted questions', function () {
+
+})->todo();
