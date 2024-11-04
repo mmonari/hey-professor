@@ -43,6 +43,30 @@ it('should paginate published questions', function () {
 
 });
 
-it('should sort by the highest voted questions', function () {
+it('should sort descending by the highest voted questions', function () {
+    $user        = User::factory()->create();
+    $anotherUser = User::factory()->create();
 
-})->todo();
+    $questions = Question::factory(5)->create(['draft' => false]);
+
+    $mostLikedQuestion   = Question::inRandomOrder()->first();
+    $mostUnlikedQuestion = Question::inRandomOrder()->where('id', '<>', $mostLikedQuestion->id)->first();
+
+    $user->likes($mostLikedQuestion);
+
+    $anotherUser->dislikes($mostUnlikedQuestion);
+
+    actingAs($user);
+
+    get(route('dashboard'))
+        ->assertViewHas('questions', function ($questions) use ($mostLikedQuestion, $mostUnlikedQuestion) {
+
+            expect($questions)
+                ->first()->id->toBe($mostLikedQuestion->id)
+                ->and($questions)
+                ->last()->id->toBe($mostUnlikedQuestion->id);
+
+            return true;
+        });
+
+});
