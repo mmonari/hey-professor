@@ -20,6 +20,9 @@
             @endforeach
         </div>
        
+        <div class="mt-4">
+            {{ $questions->links() }}
+       </div>
     </x-container>
     
 </x-app-layout>
