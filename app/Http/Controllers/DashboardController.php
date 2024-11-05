@@ -11,6 +11,7 @@ class DashboardController extends Controller
     {
         return view('dashboard', [
             'questions' => Question::query()
+                ->when(request('search'), fn ($query, $search) => $query->where('question', 'like', '%' . $search . '%'))
                 ->where('draft', false)
                 ->withSum('votes', 'likes')
                 ->withSum('votes', 'dislikes')
