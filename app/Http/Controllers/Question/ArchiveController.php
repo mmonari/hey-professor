@@ -7,14 +7,14 @@ use App\Models\Question;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 
-class DestroyController extends Controller
+class ArchiveController extends Controller
 {
     public function __invoke(Question $question): RedirectResponse
     {
 
-        Gate::authorize('destroy', $question);
+        Gate::authorize('archive', $question);
 
-        $question->forceDelete();
+        $question->delete();
 
         return back();
     }
