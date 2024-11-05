@@ -17,6 +17,7 @@ return new class () extends Migration {
             $table->foreignIdFor(User::class, 'created_by')->references('id')->on('users')->cascadeOnDelete();
             $table->boolean('draft')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

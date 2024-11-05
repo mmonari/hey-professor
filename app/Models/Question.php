@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
+use Illuminate\Database\Eloquent\{Builder, Model, Prunable, SoftDeletes};
 
 class Question extends Model
 {
     /** @use HasFactory<\Database\Factories\QuestionFactory> */
     use HasFactory;
+
+    use Prunable;
+    use SoftDeletes;
 
     protected function casts(): array
     {
@@ -35,6 +38,12 @@ class Question extends Model
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /** @return Builder<Question> */
+    public function prunable(): Builder
+    {
+        return static::query()->where('deleted_at', '<=', now()->subMonth());
     }
 
 }

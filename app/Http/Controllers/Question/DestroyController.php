@@ -14,7 +14,7 @@ class DestroyController extends Controller
 
         Gate::authorize('destroy', $question);
 
-        $question->delete();
+        $question->forceDelete();
 
         return back();
     }

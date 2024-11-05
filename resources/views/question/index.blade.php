@@ -51,13 +51,22 @@
                             <a href="{{ route('question.edit', $item) }}" 
                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ __('Edit') }}
                             </a>
+
+                            <x-form.action 
+                                action="{{ route('question.archive', $item) }}" 
+                                verb="PATCH"  
+                            >
+                                {{ __('Archive') }}
+                            </x-form.action>
                                 
                             <x-form.action 
                                 action="{{ route('question.destroy', $item) }}" 
                                 verb="DELETE"  
+                                onsubmit="return confirm('Are you sure you want to delete this question?')"
                             >
                                 {{ __('Delete') }}
                             </x-form.action>
+                            
                             <x-form.action 
                                 action="{{ route('question.publish', $item) }}" 
                                 verb="PUT"  
@@ -92,23 +101,79 @@
                             {{ $item->question }}
                         </x-table.td>
                         <x-table.td class="text-right">
+                            
+                            <x-form.action 
+                                action="{{ route('question.archive', $item) }}" 
+                                verb="PATCH"  
+                            >
+                                {{ __('Archive') }}
+                            </x-form.action>
+                            
                             <x-form.action 
                                 action="{{ route('question.destroy', $item) }}" 
                                 verb="DELETE"  
+                                onsubmit="return confirm('Are you sure you want to delete this question?')"
                             >
                                 {{ __('Delete') }}
                             </x-form.action>
+                            
                             <x-form.action 
                                 action="{{ route('question.unpublish', $item) }}" 
                                 verb="PUT"  
                             >
                                 {{ __('Unpublish') }}
                             </x-form.action>
+                            
                         </x-table.td>
                     </x-table.tr>
                 @endforeach
             </tbody>
         </x-table.main>
+
+        <hr class="my-4 border-gray-500 border-dashed">
+        
+        <x-typo.h3 class="mb-2">{{ __('Archived') }}</x-typo.h3>
+
+        <x-table.main>
+            <x-table.thead>
+                <tr>
+                    <x-table.th>
+                        Question
+                    </x-table.th>
+                    <x-table.th>
+                        &nbsp;
+                    </x-table.th>
+                </tr>
+            </x-table.thead>
+            <tbody>
+                @foreach($archivedQuestions as $item)
+                    <x-table.tr>
+                        <x-table.td>
+                            {{ $item->question }}
+                        </x-table.td>
+                        <x-table.td class="text-right">
+                            
+                            <x-form.action 
+                                action="{{ route('question.restore', $item) }}" 
+                                verb="PATCH"  
+                            >
+                                {{ __('Restore') }}
+                            </x-form.action>
+                            
+                            <x-form.action 
+                                action="{{ route('question.destroy', $item) }}" 
+                                verb="DELETE"  
+                                onsubmit="return confirm('Are you sure you want to delete this question?')"
+                            >
+                                {{ __('Delete') }}
+                            </x-form.action>
+                            
+                        </x-table.td>
+                    </x-table.tr>
+                @endforeach
+            </tbody>
+        </x-table.main>
+        
        
     </x-container>
     

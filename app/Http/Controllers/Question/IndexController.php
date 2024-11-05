@@ -9,6 +9,9 @@ class IndexController extends Controller
 {
     public function __invoke(): View
     {
-        return view('question.index', ['questions' => user()->questions]);
+        return view('question.index', [
+            'questions'         => user()->questions,
+            'archivedQuestions' => user()->questions()->onlyTrashed()->get(),
+        ]);
     }
 }
