@@ -5,7 +5,7 @@
     'delete' => null,
     'verb' => null,
 ])
-<form method="POST" action="{{ $action }}">
+<form method="POST" action="{{ $action }}" {{ $attributes }}>
 
     @csrf
 
