@@ -9,12 +9,23 @@ use Illuminate\Support\Facades\Gate;
 
 class ArchiveController extends Controller
 {
-    public function __invoke(Question $question): RedirectResponse
+    public function archive(Question $question): RedirectResponse
     {
 
         Gate::authorize('archive', $question);
 
         $question->delete();
+
+        return back();
+    }
+
+    public function restore(int $id): RedirectResponse
+    {
+        $question = Question::onlyTrashed()->findOrFail($id);
+
+        Gate::authorize('restore', $question);
+
+        $question->restore();
 
         return back();
     }
