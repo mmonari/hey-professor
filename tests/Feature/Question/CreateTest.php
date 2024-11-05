@@ -4,7 +4,7 @@
 // When writing tests:
 // AAA : Arrange, Act, Assert
 
-use App\Models\User;
+use App\Models\{Question, User};
 
 use function Pest\Laravel\{actingAs, assertDatabaseCount, assertDatabaseHas, post};
 
@@ -90,4 +90,16 @@ it('should be created as a draft at first', function () {
         'draft'    => true,
     ]);
 
+});
+
+it('should not be be created question if question already exists', function () {
+    $question = 'Is this the first time you ask this question?';
+    $user     = User::factory()->create();
+    actingAs($user);
+
+    Question::factory()->create(['question' => $question]);
+
+    post(route('question.store'), [
+        'question' => $question,
+    ])->assertSessionHasErrors(['question' => 'This question has already been asked before!']);
 });
