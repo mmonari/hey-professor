@@ -4,7 +4,7 @@
          'href' => null,
     ])
 @php 
-    $class = "px-5 py-2.5 mb-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 me-2 focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700";
+    $class = "inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-gray-700 uppercase bg-white rounded-md border border-gray-300 shadow-sm transition duration-150 ease-in-out dark:bg-gray-800 dark:border-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-25";
 @endphp
 @if($type == 'link')
     <a href="{{$href}}" class="{{ $class }}">{{ (($label) ?? $slot) }}</a>
