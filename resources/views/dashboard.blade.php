@@ -21,8 +21,9 @@
         </div>
        
         <div class="mt-4">
-            {{ $questions->links() }}
+            {{ $questions->withQueryString()->links() }}
        </div>
+       
     </x-container>
     
 </x-app-layout>
