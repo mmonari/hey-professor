@@ -2,7 +2,7 @@
 
 use App\Models\{Question, User};
 
-use function Pest\Laravel\{actingAs, assertDatabaseMissing, assertSoftDeleted, delete, put};
+use function Pest\Laravel\{actingAs, assertSoftDeleted, patch};
 
 it('should be able to archive a question', function () {
 
@@ -13,7 +13,7 @@ it('should be able to archive a question', function () {
         ->for($user, 'createdBy')
         ->create(['draft' => true]);
 
-    put(route('question.archive', $question))
+    patch(route('question.archive', $question))
         ->assertRedirect();
 
     assertSoftDeleted('questions', ['id' => $question->id]);
@@ -23,21 +23,22 @@ it('should be able to archive a question', function () {
 });
 
 it('should assert that only the author can archive question', function () {
-    // $author = User::factory()->create();
+    $author = User::factory()->create();
 
-    // $anotherUser = User::factory()->create();
+    $anotherUser = User::factory()->create();
 
-    // $question = Question::factory()->for($author, 'createdBy')->create();
+    $question = Question::factory()->for($author, 'createdBy')->create();
 
-    // actingAs($anotherUser);
+    actingAs($anotherUser);
 
-    // delete(route('question.destroy', $question))
-    //     ->assertForbidden();
+    patch(route('question.archive', $question))
+        ->assertForbidden();
 
-    // actingAs($author);
+    actingAs($author);
 
-    // delete(route('question.destroy', $question))
-    //     ->assertRedirect();
+    patch(route('question.archive', $question))
+        ->assertRedirect();
 
-    // assertDatabaseMissing('questions', ['id' => $question->id]);
-})->todo();
+    assertSoftDeleted('questions', ['id' => $question->id]);
+    ;
+});
